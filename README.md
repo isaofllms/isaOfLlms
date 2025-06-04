@@ -17,12 +17,14 @@ Here we altered the system prompt for each of the 10 models to instruct them how
 The resulting 90 × 10 dataset has 90 rows (answers) and 10 columns (potential judges).
 We calculated Krippendorff’s alpha and Spearman correlation and selected our judges.
 
-**3.3 New Judges’ Tags on 10 Models’ Answers**
+**3. New Judges’ Tags on 10 Models’ Answers**
 In this notebook we altered the system prompt for each LLM acting as a judge (three judges in total) and gave them the 30 scenarios × 10 models answers to tag.
 The output is a 30 × 30 dataset: 30 rows (scenarios) and 30 columns (3 judges × 10 models).
 
 **4. System-Prompt Experiment With Updated Models**
-We computed the ISA score of each model for every system prompt.
+We provided the models with both a unified prompt and a prompt that included a security warning, resulting in two datasets of generated responses.
+Then, these responses were labeled by the selected judges.
+Then, we computed the ISA score of each model for every system prompt.
 
 **5. Create Answers Temps Dataset (Temperature Experiment)**
 We ran the 10 LLMs on the 30 scenarios at four temperatures \[0.25, 0.5, 0.75, 1], generating 10 samples each—
