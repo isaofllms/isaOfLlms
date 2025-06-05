@@ -12,7 +12,7 @@ Below is a brief overview of each notebook, listed in the order we created and u
 **1. Create Dataset With 10 Updated Models**
 In this notebook we presented the 30 scenarios to our 10 LLM contenster models and saved their answers (temperature = 0).
 
-**2. Checking Correlation Between Judges (Updated)**
+**2. Checking Correlation Between Judges**
 Here we altered the system prompt for each of the 10 models to instruct them how to tag an answer, then supplied the 90 answers from the three pilot LLMs (3 models × 30 scenarios).
 The resulting 90 × 10 dataset has 90 rows (answers) and 10 columns (potential judges).
 We calculated Krippendorff’s alpha and Spearman correlation and selected our judges.
