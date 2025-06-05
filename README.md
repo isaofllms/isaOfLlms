@@ -17,7 +17,7 @@ Here we altered the system prompt for each of the 10 models to instruct them how
 The resulting 90 × 10 dataset has 90 rows (answers) and 10 columns (potential judges).
 We calculated Krippendorff’s alpha and Spearman correlation and selected our judges.
 
-**3. New Judges’ Tags on 10 Models’ Answers**
+**3. 3 New Judges’ Tags on 10 Models’ Answers**
 In this notebook we altered the system prompt for each LLM acting as a judge (three judges in total) and gave them the 30 scenarios × 10 models answers to tag.
 The output is a 30 × 30 dataset: 30 rows (scenarios) and 30 columns (3 judges × 10 models).
 
