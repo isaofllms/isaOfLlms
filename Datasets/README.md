@@ -1,4 +1,4 @@
-### Dataset Folders
+# Dataset Folders
 
 We have three primary folders that store the datasets produced in this study:
 
