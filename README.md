@@ -9,7 +9,7 @@ The popularity of large language models (LLMs) continues to grow, and LLM-based 
 This repository contains all the Jupyter notebooks needed to rerun our experiment, along with a `Dataset` folder that holds the data and results.
 Below is a brief overview of each notebook, listed in the order we created and used them during the experiment:
 
-**1. Create Dataset With 10 Updated Models**
+**1. Create Dataset With 10 Models**
 In this notebook we presented the 30 scenarios to our 10 LLM contenster models and saved their answers (temperature = 0).
 
 **2. Checking Correlation Between Judges**
