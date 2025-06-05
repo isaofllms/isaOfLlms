@@ -21,19 +21,19 @@ We calculated Krippendorff’s alpha and Spearman correlation and selected our j
 In this notebook we altered the system prompt for each LLM acting as a judge (three judges in total) and gave them the 30 scenarios × 10 models answers to tag.
 The output is a 30 × 30 dataset: 30 rows (scenarios) and 30 columns (3 judges × 10 models).
 
-**4. System-Prompt Experiment With Updated Models**
+**4. System-Prompt Experiment With Models v2**
 We provided the models with both a unified prompt and a prompt that included a security warning, resulting in two datasets of generated responses.
 Then, these responses were labeled by the selected judges.
 Then, we computed the ISA score of each model for every system prompt.
 
-**5. Create Answers Temps Dataset (Temperature Experiment)**
+**5. Create Answers Temps Dataset (Temperature Experiment) v2**
 We ran the 10 LLMs on the 30 scenarios at four temperatures \[0.25, 0.5, 0.75, 1], generating 10 samples each—
 a total of 10 × 30 × 4 × 10 = 12,000 answers.
 
-**6. Create Tag Dataset (Temperature Experiment)**
+**6. Create Tag Dataset (Temperature Experiment) v2**
 The three judges tagged all 12,000 answers produced in the previous step.
 
-**7. Temperature Experiment**
+**7. Temperature Experiment v2**
 Using the judges’ tags, we calculated the average ISA score for each model at every temperature and graphed the results, comparing each temperature’s average score to that at temperature 0.
 
 
