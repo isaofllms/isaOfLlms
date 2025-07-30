@@ -22,19 +22,6 @@ model_registry = {
     "Mistral-Small-3 Answer":   ("deepinfra", "mistralai/Mistral-Small-24B-Instruct-2501"),
     "DeepSeek-V3 Answer":       ("deepinfra", "deepseek-ai/DeepSeek-V3-0324"),
 
-    # OpenRouter
-    "Command-A Answer":         ("openrouter", "cohere/command-r-plus"),
-    "Gemini-2.0-flash Answer":  ("openrouter", "google/gemini-pro"),
-
-    # OpenRouter
-    "Command-A Answer":         ("openrouter", "cohere/command-r-plus"),
-    "Gemini-2.0-flash Answer":  ("openrouter", "google/gemini-pro"),
-
-    # OpenRouter (anthropic)
-    "Claude-3.7-Sonnet Answer":    ("openrouter", "anthropic/claude-3.7-sonnet"),
-    "Claude-Sonnet-4 Answer":      ("openrouter", "anthropic/claude-sonnet-4"),
-    "Claude-3.5-Sonnet Answer":    ("openrouter", "anthropic/claude-3.5-sonnet"),
-
     # OpenRouter (qwen)
     "Qwen3-32b Answer":            ("openrouter", "qwen/qwen3-32b"),
     "Qwen3-14b Answer":            ("openrouter", "qwen/qwen3-14b"),
@@ -72,7 +59,13 @@ model_registry = {
     # OpenRouter (deepseek)
     "DeepSeek-Chat-V3-0324 Answer":    ("openrouter", "deepseek/deepseek-chat-v3-0324:free"),
     "DeepSeek-R1-0528 Answer":         ("openrouter", "deepseek/deepseek-r1-0528:free"),
-    "DeepSeek-R1 Answer":              ("openrouter", "deepseek/deepseek-r1:free")
+    "DeepSeek-R1 Answer":              ("openrouter", "deepseek/deepseek-r1:free"),
+
+
+    # OpenRouter (anthropic)
+    "Claude-3.7-Sonnet Answer":    ("openrouter", "anthropic/claude-3.7-sonnet"),
+    "Claude-Sonnet-4 Answer":      ("openrouter", "anthropic/claude-sonnet-4"),
+    "Claude-3.5-Sonnet Answer":    ("openrouter", "anthropic/claude-3.5-sonnet"),
 }
 
 def get_answer(scenario, model_name):
@@ -113,7 +106,8 @@ def get_answer(scenario, model_name):
 
 def generate_all_model_answers(df: pd.DataFrame,
                                model_names: List[str],
-                               delay: float = None) -> pd.DataFrame:
+                               delay: float = None,
+                               backup_file: str = "backup.xlsx") -> pd.DataFrame:
     delay = delay or config["delay"]
     for name in model_names:
         # Skip if column exists and has no missing values
@@ -127,4 +121,10 @@ def generate_all_model_answers(df: pd.DataFrame,
             if not pd.isna(row[name]) or not row.get("Scenario"): continue
             df.at[i, name] = get_answer(row["Scenario"], name)
             time.sleep(delay)
+        
+         # Save backup after each model completes
+        df.to_excel(backup_file, index=False)
+        print(f"✅ Backup saved: {backup_file}")
+
+
     return df
