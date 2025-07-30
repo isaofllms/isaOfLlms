@@ -43,7 +43,7 @@ model_registry = {
     "Mistral-Small-3.1-24b-Instruct Answer":       ("openrouter", "mistralai/mistral-small-3.1-24b-instruct:free"),
 
     # OpenRouter (meta-llama)
-    "Llama-3.3-70b-Instruct Answer":   ("openrouter", "meta-llama/llama-3.3-70b-instruct:free"),
+    "Llama-3.3-70b-Instruct Answer":   ("openrouter", "meta-llama/llama-3.3-70b-instruct"),
     "Llama-3.1-70b-Instruct Answer":   ("openrouter", "meta-llama/llama-3.1-70b-instruct"),
     "Llama-3.1-8b-Instruct Answer":    ("openrouter", "meta-llama/llama-3.1-8b-instruct"),
     "Llama-3.1-405b-Instruct Answer":  ("openrouter", "meta-llama/llama-3.1-405b-instruct"),
@@ -117,6 +117,8 @@ def generate_all_model_answers(df: pd.DataFrame,
 
         df[name] = df.get(name, pd.Series(dtype=object))
         for i, row in df.iterrows():
+            if i != 4:
+                continue
             print(f"Model: {name}, Scenario: {row['Scenario']}")
             if not pd.isna(row[name]) or not row.get("Scenario"): continue
             df.at[i, name] = get_answer(row["Scenario"], name)
