@@ -10,8 +10,19 @@ from config import config
 
 # ✅ Model registry: maps model name → (provider, model_id)
 model_registry = {
+
+
     # OpenAI
     "GPT-4.1-mini Answer":      ("openai", "gpt-4.1-mini"),
+    "GPT-o3-mini Answer":      ("openai", "o3-mini"),
+    "GPT-o3 Answer":      ("openai", "o3"),
+    "GPT-o3-pro Answer":      ("openai", "o3-pro"),
+
+    # OpenRouter (openai)
+    "GPT-o3-mini Answer":      ("openrouter", "openai/o3-mini"),
+    "GPT-o3 Answer":      ("openrouter", "openai/o3"),
+    "GPT-o3-pro Answer":      ("openrouter", "openai/o3-pro"),
+
 
     # DeepInfra
     "Claude-3-7-Sonnet Answer": ("deepinfra", "anthropic/claude-3-7-sonnet-latest"),
@@ -99,6 +110,7 @@ def get_answer(scenario, model_name):
         # Keep existing 403 handling for other permission issues
         elif "403" in error_str:
             print(f"⚠️  403 Error for model '{model_name}' with scenario: {scenario}")
+            print(f"The error is: {e}")
             return 2
         else:
             print(f"❌ Unknown error for model '{model_name}' with scenario: {scenario[:50]}...\n{e}")
