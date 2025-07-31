@@ -6,7 +6,7 @@ from config import config
 judge_model_map = {
     "Gemini-2.0-flash": "google/gemini-2.0-flash-001",
     "Claude-3-7-Sonnet": "anthropic/claude-3.7-sonnet",
-    "Mistral-Small-3": "mistralai/mistral-small-3.2-24b-instruct:free"
+    "Mistral-Small-3": "mistralai/mistral-small-3.1-24b-instruct"
 }
 
 def get_messages(criterion, scenario, answer):
