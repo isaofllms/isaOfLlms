@@ -11,18 +11,10 @@ from config import config
 # ✅ Model registry: maps model name → (provider, model_id)
 model_registry = {
 
-
     # OpenAI
-    "GPT-4.1-mini Answer":      ("openai", "gpt-4.1-mini"),
-    "GPT-o3-mini Answer":      ("openai", "o3-mini"),
-    "GPT-o3 Answer":      ("openai", "o3"),
-    "GPT-o3-pro Answer":      ("openai", "o3-pro"),
-
-    # OpenRouter (openai)
-    "GPT-o3-mini Answer":      ("openrouter", "openai/o3-mini"),
-    "GPT-o3 Answer":      ("openrouter", "openai/o3"),
-    "GPT-o3-pro Answer":      ("openrouter", "openai/o3-pro"),
-
+    "GPT-4o-2024-05-13 Answer":     ("openai","gpt-4o-2024-05-13"),
+    "GPT-4o-2024-08-06 Answer":     ("openai","gpt-4o-2024-08-06"),
+    "GPT-4o-2024-11-20 Answer":     ("openai","gpt-4o-2024-11-20"),
 
     # DeepInfra
     "Claude-3-7-Sonnet Answer": ("deepinfra", "anthropic/claude-3-7-sonnet-latest"),
@@ -129,8 +121,6 @@ def generate_all_model_answers(df: pd.DataFrame,
 
         df[name] = df.get(name, pd.Series(dtype=object))
         for i, row in df.iterrows():
-            if i != 4:
-                continue
             print(f"Model: {name}, Scenario: {row['Scenario']}")
             if not pd.isna(row[name]) or not row.get("Scenario"): continue
             df.at[i, name] = get_answer(row["Scenario"], name)
