@@ -15,6 +15,9 @@ model_registry = {
     "GPT-4o-2024-05-13 Answer":     ("openai","gpt-4o-2024-05-13"),
     "GPT-4o-2024-08-06 Answer":     ("openai","gpt-4o-2024-08-06"),
     "GPT-4o-2024-11-20 Answer":     ("openai","gpt-4o-2024-11-20"),
+    "GPT-4.1 Answer":     ("openai","gpt-4.1"),
+    "GPT-4.1-mini Answer":     ("openai","gpt-4.1-mini"),
+    "GPT-4.1-nano Answer":     ("openai","gpt-4.1-nano"),
 
     # DeepInfra
     "Claude-3-7-Sonnet Answer": ("deepinfra", "anthropic/claude-3-7-sonnet-latest"),
@@ -84,7 +87,9 @@ def get_answer(scenario, model_name):
             model=model_id,
             messages=[{"role": "user", "content": scenario}],
             temperature=config["temperature"],
-            max_tokens=config["max_tokens"]
+            max_tokens=config["max_tokens"],
+            top_p=config["top_p"],
+            top_k=config["top_k"]
         )
         return resp.choices[0].message.content
 
@@ -97,13 +102,13 @@ def get_answer(scenario, model_name):
             "requires moderation" in error_str.lower() or
             "illicit" in error_str.lower()):
             print(f"🚫 Content flagged for model '{model_name}': {scenario[:50]}...")
-            return 2
+            return "I'm sorry, but I cant help you with that."
         
         # Keep existing 403 handling for other permission issues
         elif "403" in error_str:
             print(f"⚠️  403 Error for model '{model_name}' with scenario: {scenario}")
             print(f"The error is: {e}")
-            return 2
+            return "I'm sorry, but I cant help you with that."
         else:
             print(f"❌ Unknown error for model '{model_name}' with scenario: {scenario[:50]}...\n{e}")
             return 0
