@@ -15,18 +15,22 @@ model_registry = {
     "GPT-4o-2024-05-13 Answer":     ("openai","gpt-4o-2024-05-13"),
     "GPT-4o-2024-08-06 Answer":     ("openai","gpt-4o-2024-08-06"),
     "GPT-4o-2024-11-20 Answer":     ("openai","gpt-4o-2024-11-20"),
-    "GPT-4.1 Answer":     ("openai","gpt-4.1"),
-    "GPT-4.1-mini Answer":     ("openai","gpt-4.1-mini"),
-    "GPT-4.1-nano Answer":     ("openai","gpt-4.1-nano"),
+    # "GPT-4.1 Answer":               ("openai","gpt-4.1"),
+    "GPT-4.1-mini Answer":          ("openai","gpt-4.1-mini"),
+    "GPT-4.1-nano Answer":          ("openai","gpt-4.1-nano"),
+
+    # OpenRouter (OpenAI)
+    "GPT-4o-mini Answer":          ("openrouter","openai/gpt-4o-mini"),
+    "GPT-4.1 Answer":               ("openai","openai/gpt-4.1"),
+
 
     # DeepInfra
-    "Claude-3-7-Sonnet Answer": ("deepinfra", "anthropic/claude-3-7-sonnet-latest"),
-    "Llama-4-Scout Answer":     ("deepinfra", "meta-llama/Llama-4-Scout-17B-16E-Instruct"),
-    "Mixtral-8x7B Answer":      ("deepinfra", "mistralai/Mixtral-8x7B-Instruct-v0.1"),
-    "Phi-4 Answer":             ("deepinfra", "microsoft/phi-4"),
-    "Gemma-3 Answer":           ("deepinfra", "google/gemma-3-27b-it"),
-    "Mistral-Small-3 Answer":   ("deepinfra", "mistralai/Mistral-Small-24B-Instruct-2501"),
-    "DeepSeek-V3 Answer":       ("deepinfra", "deepseek-ai/DeepSeek-V3-0324"),
+    # "Claude-3-7-Sonnet Answer": ("deepinfra", "anthropic/claude-3-7-sonnet-latest"),
+    # "Llama-4-Scout Answer":     ("deepinfra", "meta-llama/Llama-4-Scout-17B-16E-Instruct"),
+    # "Mixtral-8x7B Answer":      ("deepinfra", "mistralai/Mixtral-8x7B-Instruct-v0.1"),
+    # "Gemma-3 Answer":           ("deepinfra", "google/gemma-3-27b-it"),
+    # "Mistral-Small-3 Answer":   ("deepinfra", "mistralai/Mistral-Small-24B-Instruct-2501"),
+    # "DeepSeek-V3 Answer":       ("deepinfra", "deepseek-ai/DeepSeek-V3-0324"),
 
     # OpenRouter (qwen)
     "Qwen3-32b Answer":            ("openrouter", "qwen/qwen3-32b"),
@@ -42,11 +46,15 @@ model_registry = {
     "Gemma-3-27b-It Answer":           ("openrouter", "google/gemma-3-27b-it:free"),
     "Gemma-3-4b-It Answer":            ("openrouter", "google/gemma-3-4b-it:free"),
     "Gemma-3-12b-It Answer":           ("openrouter", "google/gemma-3-12b-it:free"),
+    "Gemma-2-27b-It Answer":           ("openrouter", "google/gemma-2-27b-it"),
 
     # OpenRouter (mistralai)
     "Mistral-Small-3.2-24b-Instruct Answer":       ("openrouter", "mistralai/mistral-small-3.2-24b-instruct:free"),
     "Mistral-Small-24b-Instruct-2501 Answer":      ("openrouter", "mistralai/mistral-small-24b-instruct-2501:free"),
     "Mistral-Small-3.1-24b-Instruct Answer":       ("openrouter", "mistralai/mistral-small-3.1-24b-instruct:free"),
+    "Mixtral-8x7B Answer":                         ("openrouter", "mistralai/mixtral-8x7b-instruct"),
+
+
 
     # OpenRouter (meta-llama)
     "Llama-3.3-70b-Instruct Answer":   ("openrouter", "meta-llama/llama-3.3-70b-instruct"),
@@ -54,6 +62,9 @@ model_registry = {
     "Llama-3.1-8b-Instruct Answer":    ("openrouter", "meta-llama/llama-3.1-8b-instruct"),
     "Llama-3.1-405b-Instruct Answer":  ("openrouter", "meta-llama/llama-3.1-405b-instruct"),
     "Llama-3-70b-Instruct Answer":     ("openrouter", "meta-llama/llama-3-70b-instruct"),
+    "Llama-3.2-90b-Instruct Answer":   ("openrouter", "meta-llama/llama-3.2-90b-vision-instruct"),
+    "Llama-4-Scout Answer":            ("openrouter", "meta-llama/llama-4-scout"),
+
 
     # OpenRouter (cohere)
     "Command-A (Alt) Answer":              ("openrouter", "cohere/command-a"),
@@ -72,6 +83,15 @@ model_registry = {
     "Claude-3.7-Sonnet Answer":    ("openrouter", "anthropic/claude-3.7-sonnet"),
     "Claude-Sonnet-4 Answer":      ("openrouter", "anthropic/claude-sonnet-4"),
     "Claude-3.5-Sonnet Answer":    ("openrouter", "anthropic/claude-3.5-sonnet"),
+
+    # OpenRouter (xAI)
+    "Grok-4 Answer": ("openrouter","x-ai/grok-4"),
+    "Grok-3 Answer": ("openrouter","x-ai/grok-3"),
+
+    # OpenRouter (Microsoft)
+    "Phi-4 Answer":      ("openrouter", "microsoft/phi-4"),
+
+
 }
 
 def get_answer(scenario, model_name):
@@ -87,9 +107,9 @@ def get_answer(scenario, model_name):
             model=model_id,
             messages=[{"role": "user", "content": scenario}],
             temperature=config["temperature"],
-            max_tokens=config["max_tokens"],
-            top_p=config["top_p"],
-            top_k=config["top_k"]
+            # max_tokens=config["max_tokens"],
+            # top_p=config["top_p"],
+            # top_k=config["top_k"]
         )
         return resp.choices[0].message.content
 
@@ -100,15 +120,10 @@ def get_answer(scenario, model_name):
         if ("moderation" in error_str.lower() or 
             "flagged" in error_str.lower() or 
             "requires moderation" in error_str.lower() or
-            "illicit" in error_str.lower()):
+            "illicit" in error_str.lower() or
+            "403" in error_str):
             print(f"🚫 Content flagged for model '{model_name}': {scenario[:50]}...")
-            return "I'm sorry, but I cant help you with that."
-        
-        # Keep existing 403 handling for other permission issues
-        elif "403" in error_str:
-            print(f"⚠️  403 Error for model '{model_name}' with scenario: {scenario}")
-            print(f"The error is: {e}")
-            return "I'm sorry, but I cant help you with that."
+            return "I'm sorry, but due to security reasons, I can't help you with that."
         else:
             print(f"❌ Unknown error for model '{model_name}' with scenario: {scenario[:50]}...\n{e}")
             return 0
