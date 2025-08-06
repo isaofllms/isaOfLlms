@@ -12,16 +12,20 @@ from config import config
 model_registry = {
 
     # OpenAI
-    "GPT-4o-2024-05-13 Answer":     ("openai","gpt-4o-2024-05-13"),
-    "GPT-4o-2024-08-06 Answer":     ("openai","gpt-4o-2024-08-06"),
-    "GPT-4o-2024-11-20 Answer":     ("openai","gpt-4o-2024-11-20"),
+    # "GPT-4o-2024-05-13 Answer":     ("openai","gpt-4o-2024-05-13"),
+    # "GPT-4o-2024-08-06 Answer":     ("openai","gpt-4o-2024-08-06"),
+    # "GPT-4o-2024-11-20 Answer":     ("openai","gpt-4o-2024-11-20"),
     # "GPT-4.1 Answer":               ("openai","gpt-4.1"),
-    "GPT-4.1-mini Answer":          ("openai","gpt-4.1-mini"),
-    "GPT-4.1-nano Answer":          ("openai","gpt-4.1-nano"),
+    # "GPT-4.1-mini Answer":          ("openai","gpt-4.1-mini"),
+    # "GPT-4.1-nano Answer":          ("openai","gpt-4.1-nano"),
+
 
     # OpenRouter (OpenAI)
-    "GPT-4o-mini Answer":          ("openrouter","openai/gpt-4o-mini"),
-    "GPT-4.1 Answer":               ("openai","openai/gpt-4.1"),
+    "GPT-4o Answer":                ("openrouter","openai/gpt-4o"),
+    "GPT-4o-mini Answer":           ("openrouter","openai/gpt-4o-mini"),
+    "GPT-4.1 Answer":               ("openrouter","openai/gpt-4.1"),
+    "GPT-4.1-mini Answer":          ("openrouter","openai/gpt-4.1-mini"),
+
 
 
     # DeepInfra
@@ -36,23 +40,36 @@ model_registry = {
     "Qwen3-32b Answer":            ("openrouter", "qwen/qwen3-32b"),
     "Qwen3-14b Answer":            ("openrouter", "qwen/qwen3-14b"),
     "Qwen3-8b Answer":             ("openrouter", "qwen/qwen3-8b"),
+    "Qwen2.5-7b Answer":             ("openrouter", "qwen/qwen-2.5-7b-instruct"),
+    "Qwen2.5-72b Answer":             ("openrouter", "qwen/qwen-2.5-72b-instruct"),
 
     # OpenRouter (google)
-    "Gemini-2.5-Flash Answer":         ("openrouter", "google/gemini-2.5-flash"),
-    "Gemini-2.0-Flash-001 Answer":     ("openrouter", "google/gemini-2.0-flash-001"),
-    "Gemini-Flash-1.5 Answer":         ("openrouter", "google/gemini-flash-1.5"),
-    "Gemini-Flash-1.5-8b Answer":      ("openrouter", "google/gemini-flash-1.5-8b"),
-    "Gemini-Pro-1.5 Answer":           ("openrouter", "google/gemini-pro-1.5"),
-    "Gemma-3-27b-It Answer":           ("openrouter", "google/gemma-3-27b-it:free"),
-    "Gemma-3-4b-It Answer":            ("openrouter", "google/gemma-3-4b-it:free"),
-    "Gemma-3-12b-It Answer":           ("openrouter", "google/gemma-3-12b-it:free"),
-    "Gemma-2-27b-It Answer":           ("openrouter", "google/gemma-2-27b-it"),
+    "Gemini-2.5-Flash Answer":              ("openrouter", "google/gemini-2.5-flash"),
+    "Gemini-2.5-Flash-Lite Answer":         ("openrouter", "google/gemini-2.5-flash-lite"),
+    "Gemini-2.0-Flash-001 Answer":          ("openrouter", "google/gemini-2.0-flash-001"),
+    "Gemini-2.0-Flash-001-Lite Answer":     ("openrouter", "google/gemini-2.0-flash-lite-001"),
+    "Gemini-Flash-1.5 Answer":              ("openrouter", "google/gemini-flash-1.5"),
+    "Gemini-Flash-1.5-8b Answer":           ("openrouter", "google/gemini-flash-1.5-8b"),
+    "Gemini-Pro-1.5 Answer":                ("openrouter", "google/gemini-pro-1.5"),
+    "Gemini-2.5-Pro Answer":                ("openrouter", "google/gemini-2.5-pro"),
+
+    "Gemma-3-27b-It Answer":                ("openrouter", "google/gemma-3-27b-it:free"),
+    "Gemma-3-4b-It Answer":                 ("openrouter", "google/gemma-3-4b-it:free"),
+    "Gemma-3-12b-It Answer":                ("openrouter", "google/gemma-3-12b-it:free"),
+    "Gemma-2-27b-It Answer":                ("openrouter", "google/gemma-2-27b-it"),
+    "Gemma-3n-2B Answer":                   ("openrouter", "google/gemma-3n-e2b-it:free"),
+    "Gemma-3n-4B Answer":                   ("openrouter", "google/gemma-3n-e4b-it"),
+    "Gemma-2-9b-It Answer":                ("openrouter", "google/gemma-2-9b-it"),
+
 
     # OpenRouter (mistralai)
     "Mistral-Small-3.2-24b-Instruct Answer":       ("openrouter", "mistralai/mistral-small-3.2-24b-instruct:free"),
-    "Mistral-Small-24b-Instruct-2501 Answer":      ("openrouter", "mistralai/mistral-small-24b-instruct-2501:free"),
+    "Mistral-Small-24b-Instruct-2501 Answer":      ("openrouter", "mistralai/mistral-small-24b-instruct-2501:free"), #Mistral-small-3
+    "Mistral-Medium-3 Answer":                     ("openrouter", "mistralai/mistral-medium-3"), 
     "Mistral-Small-3.1-24b-Instruct Answer":       ("openrouter", "mistralai/mistral-small-3.1-24b-instruct:free"),
+
     "Mixtral-8x7B Answer":                         ("openrouter", "mistralai/mixtral-8x7b-instruct"),
+    "Mixtral-8x22B Answer":                        ("openrouter", "mistralai/mixtral-8x22b-instruct"),
 
 
 
@@ -63,7 +80,13 @@ model_registry = {
     "Llama-3.1-405b-Instruct Answer":  ("openrouter", "meta-llama/llama-3.1-405b-instruct"),
     "Llama-3-70b-Instruct Answer":     ("openrouter", "meta-llama/llama-3-70b-instruct"),
     "Llama-3.2-90b-Instruct Answer":   ("openrouter", "meta-llama/llama-3.2-90b-vision-instruct"),
+    "Llama-3.2-1b-Instruct Answer":    ("openrouter", "meta-llama/llama-3.2-1b-instruct"),
+    "Llama-3.2-3b-Instruct Answer":    ("openrouter", "meta-llama/llama-3.2-3b-instruct"),
     "Llama-4-Scout Answer":            ("openrouter", "meta-llama/llama-4-scout"),
+    "Llama-4-Maverick Answer":         ("openrouter", "meta-llama/llama-4-maverick"),
+    "Llama-3-70b Answer":              ("openrouter", "meta-llama/llama-3-70b-instruct"),
+    "Llama-3-8b Answer":               ("openrouter", "meta-llama/llama-3-8b-instruct"),
+    "Llama-3.1-8b Answer":             ("openrouter", "meta-llama/llama-3.1-8b-instruct"),
 
 
     # OpenRouter (cohere)
@@ -83,13 +106,24 @@ model_registry = {
     "Claude-3.7-Sonnet Answer":    ("openrouter", "anthropic/claude-3.7-sonnet"),
     "Claude-Sonnet-4 Answer":      ("openrouter", "anthropic/claude-sonnet-4"),
     "Claude-3.5-Sonnet Answer":    ("openrouter", "anthropic/claude-3.5-sonnet"),
+    "Calude-Opus-4 Answer":        ("openrouter","anthropic/claude-opus-4"),
 
     # OpenRouter (xAI)
     "Grok-4 Answer": ("openrouter","x-ai/grok-4"),
     "Grok-3 Answer": ("openrouter","x-ai/grok-3"),
+    "Grok-3-mini Answer": ("openrouter","x-ai/grok-3-mini"),
 
     # OpenRouter (Microsoft)
-    "Phi-4 Answer":      ("openrouter", "microsoft/phi-4"),
+    "Phi-4 Answer":             ("openrouter", "microsoft/phi-4"),
+    "Phi-3-mini Answer":        ("openrouter", "microsoft/phi-3-mini-128k-instruct"),
+    "Phi-3.5-mini Answer":        ("openrouter", "microsoft/phi-3.5-mini-128k-instruct"),
+    "Phi-3-medium Answer":      ("openrouter", "microsoft/phi-3-medium-128k-instruct"),
+
+    # OpenRouter (AI21)
+    "Jamba-1.6-large Answer": ("openrouter","ai21/jamba-1.6-large"),
+    "Jamba-mini-1.6 Answer": ("openrouter","ai21/jamba-1.6-mini"),
+
+
 
 
 }
