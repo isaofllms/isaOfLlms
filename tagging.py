@@ -12,20 +12,22 @@ judge_model_map = {
 # Extended judge model map for your new models
 extended_judge_model_map = {
     "Gemini-2.0-flash": "google/gemini-2.0-flash-001",
-    "Gemini-1.5-flash": "google/gemini-flash-1.5",
-    "Gemma-2-27b": "google/gemma-2-27b-it",
+    # "Gemini-1.5-flash": "google/gemini-flash-1.5",
+    # "Gemma-2-27b": "google/gemma-2-27b-it",
     "Gemma-3-27b": "google/gemma-3-27b-it:free",
     "Mistral-Small-2501": "mistralai/mistral-small-24b-instruct-2501:free",
     "Llama-4-Scout": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
-    "Llama-3.2-90b": "meta-llama/llama-3.2-90b-vision-instruct",
-    "Command-R-Plus": "cohere/command-r-plus-08-2024",
+    # "Llama-3.2-90b": "meta-llama/llama-3.2-90b-vision-instruct",
+    # "Command-R-Plus": "cohere/command-r-plus-08-2024",
     "Command-A": "cohere/command-a",
     "Claude-3.7-Sonnet": "anthropic/claude-3.7-sonnet",
     "Phi-4": "microsoft/phi-4",
     "Mixtral-8x7B": "mistralai/mixtral-8x7b-instruct",
-    "GPT-4.1": "openai/gpt-4.1",
-    "GPT-4o-mini": "openai/gpt-4o-mini",
-    "DeepSeek-V3": "deepseek/deepseek-chat-v3-0324:free"
+    # "GPT-4.1": "openai/gpt-4.1",
+    # "GPT-4o-mini": "openai/gpt-4o-mini",
+    "DeepSeek-V3": "deepseek/deepseek-chat-v3-0324:free",
+    "GPT-4.1-mini": "openai/gpt-4.1-mini",
+    
 }
 
 
@@ -86,20 +88,18 @@ def get_messages_WITH_explanation(criterion, scenario, answer):
 import json
 from datetime import datetime
 
-def save_full_response(model_name, criterion, scenario, answer, full_response, explanation=False):
-    """Save the full response before extraction to a separate file"""
+def save_full_response(model_name, criterion, full_response, extracted_score, explanation=False):
+    """Save the judge's evaluation with extracted score"""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"full_responses_{timestamp.split('_')[0]}.jsonl"  # One file per day
+    filename = f"judge_evaluations_{timestamp.split('_')[0]}.jsonl"  # One file per day
     
     response_data = {
         "timestamp": timestamp,
         "judge_model": model_name,
-        "explanation_mode": explanation,
+        "explanation_required": explanation,
         "criterion": criterion,
-        "scenario": scenario[:100] + "..." if len(scenario) > 100 else scenario,  # Truncate long scenarios
-        "evaluated_answer": answer[:200] + "..." if len(answer) > 200 else answer,  # Truncate long answers
-        "full_response": full_response,
-        "extracted_score": None  # Will be filled after extraction
+        "model_response": full_response,
+        "extracted_score": extracted_score
     }
     
     # Append to JSONL file (one JSON object per line)
@@ -111,27 +111,53 @@ def save_full_response(model_name, criterion, scenario, answer, full_response, e
 
 
 
-def extract_score_from_response(response, model_name):
-    """Extract numerical score from response, scanning from end to beginning"""
+def extract_score_from_response(response, model_name, with_explanation=False):
+    """
+    Extract numerical score from response
+    
+    Args:
+        response: The model's response text
+        model_name: Name of the judge model (for error reporting)
+        with_explanation: Boolean indicating the response format
+            - False: Scan from beginning to find first valid score (1, 2, or 3)
+            - True: Scan from end backward to find last valid score (1, 2, or 3)
+    
+    Returns:
+        int: The extracted score (1, 2, or 3), or None if extraction fails
+    """
     if not response:
         print(f"⚠️ Empty response from judge '{model_name}'")
         return None
+    
+    # Remove asterisks and strip whitespace
+    cleaned_response = response.replace("*", "").strip()
+    
+    if len(cleaned_response) == 0:
+        print(f"❌ ERROR: Judge '{model_name}' gave empty response after cleaning")
+        return None
+    
+    if not with_explanation:
+        # Option 1: Scan from beginning to find first valid score
+        for char in cleaned_response:
+            if char in ['1', '2', '3']:
+                return int(char)
         
-    response = response.strip()
-    if response in ['1', '2', '3']:
-        return int(response)
+        print(f"❌ ERROR: Judge '{model_name}' gave invalid response for no-explanation mode.")
+        print(f"   Expected: Response containing digit (1, 2, or 3)")
+        print(f"   Got: '{response}' (no valid score found)")
+        return None
     
-    # Method 1: Look for score at the very end
-    if len(response) > 0 and response[-1] in ['1', '2', '3']:
-        return int(response[-1])
-    
-    # Method 2: Scan from right to left
-    for char in reversed(response):
-        if char in ['1', '2', '3']:
-            return int(char)
-    
-    print(f"⚠️ Unexpected response format from '{model_name}': {response[:100]}...")
-    return None
+    else:
+        # Option 2: Scan from end backward to find last valid score
+        for char in reversed(cleaned_response):
+            if char in ['1', '2', '3']:
+                return int(char)
+        
+        print(f"❌ ERROR: Judge '{model_name}' gave invalid response for explanation mode.")
+        print(f"   Expected: Response containing digit (1, 2, or 3)")
+        print(f"   Got: '{response}' (no valid score found)")
+        print(f"   Full response (first 200 chars): '{response[:200]}...'")
+        return None
 
 
 def get_model_response(model_name, model_client, temperature, max_tokens, criterion, scenario, answer, explanation=False):
@@ -152,9 +178,14 @@ def get_model_response(model_name, model_client, temperature, max_tokens, criter
             )
 
         response = chat_completion.choices[0].message.content
-        save_full_response(model_name, criterion, scenario, answer, response, explanation)
+        
+        # Extract score first
+        extracted_score = extract_score_from_response(response, model_name, with_explanation=explanation)
+        
+        # Then save everything including the extracted score
+        save_full_response(model_name, criterion, response, extracted_score, explanation)
 
-        return extract_score_from_response(response, model_name)
+        return extracted_score
             
     except Exception as e:
         error_str = str(e)
@@ -164,6 +195,8 @@ def get_model_response(model_name, model_client, temperature, max_tokens, criter
             "flagged" in error_str.lower() or 
             "illicit" in error_str.lower()):
             print(f"🚫 Content flagged by judge '{model_name}'")
+            # Log the moderation block
+            save_full_response(model_name, criterion, f"CONTENT_MODERATION_BLOCK: {error_str}", -1, explanation)
             return -1  # Special code for moderation blocks
         
         # Handle rate limiting
@@ -187,47 +220,35 @@ def get_model_response(model_name, model_client, temperature, max_tokens, criter
                     )
 
                 response = chat_completion.choices[0].message.content
-                return extract_score_from_response(response, model_name)
+                extracted_score = extract_score_from_response(response, model_name, with_explanation=explanation)
+                save_full_response(model_name, criterion, response, extracted_score, explanation)
+                return extracted_score
                 
             except Exception as retry_e:
                 print(f"❌ Retry failed for judge '{model_name}': {retry_e}")
+                # Log the retry failure
+                save_full_response(model_name, criterion, f"RETRY_FAILED: {retry_e}", None, explanation)
                 return None
         else:
             print(f"❌ Error with judge '{model_name}': {e}")
+            # Log the error
+            save_full_response(model_name, criterion, f"ERROR: {error_str}", None, explanation)
             return None
 
-def get_judge_functions_WITHOUT_explanation(openrouter_client, **kwargs):
-    judge_functions = {}
-    
-    for judge, model_id in extended_judge_model_map.items():
-        # Determine which client to use based on model_id     
-        client = openrouter_client
-            
-        judge_functions[judge] = (
-            lambda c, s, a, m=model_id, cl=client:
-            get_model_response(m, cl,
-                             temperature=kwargs["temperature"],
-                             max_tokens=kwargs.get("max_tokens", 1000),
-                             criterion=c, scenario=s, answer=a, 
-                             explanation=False)  # Disable explanations
-        )
-    
-    return judge_functions
-    
 
-def get_judge_functions_WITH_explanation(openrouter_client, **kwargs):
+def get_judge_functions(openrouter_client, explanation, **kwargs):
     judge_functions = {}
     
     for judge, model_id in extended_judge_model_map.items():
-       
         client = openrouter_client     
+        # FIX: Capture explanation by value to avoid closure issues
         judge_functions[judge] = (
-            lambda c, s, a, m=model_id, cl=client:
+            lambda c, s, a, m=model_id, cl=client, exp=explanation:
             get_model_response(m, cl,
-                             temperature=kwargs["temperature"],
-                             max_tokens=kwargs.get("max_tokens", 1000),
-                             criterion=c, scenario=s, answer=a, 
-                             explanation=True)  # Enable explanations
+                            temperature=kwargs["temperature"],
+                            max_tokens=kwargs.get("max_tokens", 1000),
+                            criterion=c, scenario=s, answer=a, 
+                            explanation=exp)  # Use captured value
         )
     
     return judge_functions
