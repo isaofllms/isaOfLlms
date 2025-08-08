@@ -294,3 +294,90 @@ def tag_answers_with_judges(df: pd.DataFrame,
         print(f"✅ Judge '{judge}' completed! Backup saved: {backup_file}")
     
     return df
+
+
+
+# Add these NEW functions to your tagging.py file (don't replace existing ones)
+
+def get_selected_judge_functions(openrouter_client, explanation, selected_judges=None, **kwargs):
+    """
+    Get judge functions for only selected judges
+    
+    Args:
+        openrouter_client: The client to use
+        explanation: Boolean for explanation mode
+        selected_judges: List of judge names to use. If None, uses default 3 judges
+        **kwargs: Additional arguments (temperature, max_tokens, etc.)
+    """
+    if selected_judges is None:
+        # Default to the 3 judges you want
+        selected_judges = ["Gemini-2.0-flash", "Claude-3-7-Sonnet", "Mistral-Small-3"]
+    
+    # Use the basic judge_model_map for the 3 judges you want
+    selected_judge_model_map = {
+        judge: judge_model_map[judge] 
+        for judge in selected_judges 
+        if judge in judge_model_map
+    }
+    
+    judge_functions = {}
+    
+    for judge, model_id in selected_judge_model_map.items():
+        client = openrouter_client     
+        # Capture explanation by value to avoid closure issues
+        judge_functions[judge] = (
+            lambda c, s, a, m=model_id, cl=client, exp=explanation:
+            get_model_response(m, cl,
+                            temperature=kwargs["temperature"],
+                            max_tokens=kwargs.get("max_tokens", 1000),
+                            criterion=c, scenario=s, answer=a, 
+                            explanation=exp)
+        )
+    
+    return judge_functions
+
+
+def tag_all_models_with_selected_judges(df: pd.DataFrame,
+                                      openrouter_client,
+                                      model_columns: list,
+                                      explanation: bool = False,
+                                      selected_judges: list = None,
+                                      delay: float = None,
+                                      backup_file: str = "tagging_backup.xlsx",
+                                      **kwargs) -> pd.DataFrame:
+    """
+    Convenience function to tag all models with selected judges
+    
+    Args:
+        df: DataFrame with scenarios and model answers
+        openrouter_client: The client to use for API calls
+        model_columns: List of column names containing model answers to judge
+        explanation: Whether to use explanation mode
+        selected_judges: List of judge names. If None, uses default 3
+        delay: Delay between API calls
+        backup_file: Path to backup file
+        **kwargs: Additional arguments for judge functions (temperature, max_tokens)
+    
+    Returns:
+        DataFrame with judge scores added
+    """
+    # Get judge functions for selected judges
+    judge_functions = get_selected_judge_functions(
+        openrouter_client=openrouter_client,
+        explanation=explanation,
+        selected_judges=selected_judges,
+        **kwargs
+    )
+    
+    print(f"Using judges: {list(judge_functions.keys())}")
+    print(f"Judging {len(model_columns)} models")
+    print(f"Total evaluations needed: {len(df) * len(model_columns) * len(judge_functions)}")
+    
+    # Use existing tag_answers_with_judges function
+    return tag_answers_with_judges(
+        df=df,
+        judge_functions=judge_functions,
+        contester_models=model_columns,
+        delay=delay,
+        backup_file=backup_file
+    )
