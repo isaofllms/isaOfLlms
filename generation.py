@@ -59,7 +59,7 @@ model_registry = {
     "Gemma-2-27b-It Answer":                ("openrouter", "google/gemma-2-27b-it"),
     "Gemma-3n-2B Answer":                   ("openrouter", "google/gemma-3n-e2b-it:free"),
     "Gemma-3n-4B Answer":                   ("openrouter", "google/gemma-3n-e4b-it"),
-    "Gemma-2-9b-It Answer":                ("openrouter", "google/gemma-2-9b-it"),
+    "Gemma-2-9b-It Answer":                 ("openrouter", "google/gemma-2-9b-it"),
 
 
     # OpenRouter (mistralai)
@@ -67,6 +67,7 @@ model_registry = {
     "Mistral-Small-24b-Instruct-2501 Answer":      ("openrouter", "mistralai/mistral-small-24b-instruct-2501:free"), #Mistral-small-3
     "Mistral-Medium-3 Answer":                     ("openrouter", "mistralai/mistral-medium-3"), 
     "Mistral-Small-3.1-24b-Instruct Answer":       ("openrouter", "mistralai/mistral-small-3.1-24b-instruct:free"),
+    "Mistral-large-2 Answer":                      ("openrouter", "mistralai/mistral-large-2411"), # NEW
 
     "Mixtral-8x7B Answer":                         ("openrouter", "mistralai/mixtral-8x7b-instruct"),
     "Mixtral-8x22B Answer":                        ("openrouter", "mistralai/mixtral-8x22b-instruct"),
@@ -126,7 +127,7 @@ model_registry = {
 
 
 
-}
+}        
 
 def get_answer(scenario, model_name):
     provider, model_id = model_registry[model_name]
@@ -148,23 +149,121 @@ def get_answer(scenario, model_name):
         return resp.choices[0].message.content
 
     except Exception as e:
-        error_str = str(e)
-        
-        # Check specifically for content moderation/flagging errors
-        if ("moderation" in error_str.lower() or 
-            "flagged" in error_str.lower() or 
-            "requires moderation" in error_str.lower() or
-            "illicit" in error_str.lower() or
+        error_str = str(e).lower()
+
+        # Moderation / flagged cases -> return safe message (no retries)
+        if ("moderation" in error_str or 
+            "flagged" in error_str or 
+            "requires moderation" in error_str or
+            "illicit" in error_str or
             "403" in error_str):
             print(f"🚫 Content flagged for model '{model_name}': {scenario[:50]}...")
             return "I'm sorry, but due to security reasons, I can't help you with that."
-        else:
-            print(f"❌ Unknown error for model '{model_name}' with scenario: {scenario[:50]}...\n{e}")
-            return 0
+
+        # Unknown error -> retry up to 10 times
+        print(f"❌ Unknown error for model '{model_name}' with scenario: {scenario[:50]}...\n{e}")
+        for attempt in range(1, 11):  # 1..10
+            try:
+                resp = client.chat.completions.create(
+                    model=model_id,
+                    messages=[{"role": "user", "content": scenario}],
+                    temperature=config["temperature"],
+                )
+                return resp.choices[0].message.content
+            except Exception as e2:
+                print(f"   ↻ Retry {attempt}/10 failed for '{model_name}': {e2}")
+                # continue trying until attempts exhausted
+
+        # If all retries failed, return 0
+        print(f"❌ Exhausted retries for model '{model_name}'.")
+        return 0
+
 
 def generate_all_model_answers(df: pd.DataFrame,
                                model_names: List[str],
                                delay: float = None,
+                               backup_file: str = "backup.xlsx") -> pd.DataFrame:
+    delay = delay or config["delay"]
+    for name in model_names:
+
+        df[name] = df.get(name, pd.Series(dtype=object))
+        for i, row in df.iterrows():
+            print(f"Model: {name}, Scenario: {row['Scenario']}")
+            if not pd.isna(row[name]) or not row.get("Scenario"): continue
+            df.at[i, name] = get_answer(row["Scenario"], name)
+            time.sleep(delay)
+        
+         # Save backup after each model completes
+        df.to_excel(backup_file, index=False)
+        print(f"✅ Backup saved: {backup_file}")
+
+
+    return df
+
+# ================ System Prompt functions ========================
+
+def get_answer_with_system_prompt(scenario, model_name,system_prompt):
+    provider, model_id = model_registry[model_name]
+    client = {
+        "openai": openai_client,
+        "deepinfra": deepinfra_client,
+        "openrouter": openrouter_client
+    }[provider]
+
+    try:
+        resp = client.chat.completions.create(
+            model=model_id,
+            messages=
+            [
+                {
+                 "role": "system",
+                 "content": system_prompt
+                },
+                {
+                    "role": "user",
+                     "content": scenario
+                }
+            ],
+            temperature=config["temperature"],
+        )
+        return resp.choices[0].message.content
+
+    except Exception as e:
+        error_str = str(e).lower()
+
+        # Moderation / flagged cases -> return safe message (no retries)
+        if ("moderation" in error_str or 
+            "flagged" in error_str or 
+            "requires moderation" in error_str or
+            "illicit" in error_str or
+            "403" in error_str):
+            print(f"🚫 Content flagged for model '{model_name}': {scenario[:50]}...")
+            return "I'm sorry, but due to security reasons, I can't help you with that."
+
+        # Unknown error -> retry up to 10 times
+        print(f"❌ Unknown error for model '{model_name}' with scenario: {scenario[:50]}...\n{e}")
+        for attempt in range(1, 11):  # 1..10
+            try:
+                resp = client.chat.completions.create(
+                    model=model_id,
+                    messages=[{"role": "user", "content": scenario}],
+                    temperature=config["temperature"],
+                )
+                return resp.choices[0].message.content
+            except Exception as e2:
+                print(f"   ↻ Retry {attempt}/10 failed for '{model_name}': {e2}")
+                # continue trying until attempts exhausted
+
+        # If all retries failed, return 0
+        print(f"❌ Exhausted retries for model '{model_name}'.")
+        return 0
+
+        
+
+def generate_all_model_answers_with_system_prompt(df: pd.DataFrame,
+                               model_names: List[str],
+                               delay: float = None,
+                               system_prompt : str = "",
                                backup_file: str = "backup.xlsx") -> pd.DataFrame:
     delay = delay or config["delay"]
     for name in model_names:
@@ -177,7 +276,7 @@ def generate_all_model_answers(df: pd.DataFrame,
         for i, row in df.iterrows():
             print(f"Model: {name}, Scenario: {row['Scenario']}")
             if not pd.isna(row[name]) or not row.get("Scenario"): continue
-            df.at[i, name] = get_answer(row["Scenario"], name)
+            df.at[i, name] = get_answer_with_system_prompt(row["Scenario"], name, system_prompt)
             time.sleep(delay)
         
          # Save backup after each model completes
