@@ -1,0 +1,91 @@
+Model,Default_ISA,Generic_ISA,Awareness_ISA,Model_Type,Generic_vs_Default,Awareness_vs_Default,Awareness_vs_Generic
+Mistral-Small-3 Tag for Qwen2.5-72b,,0.0,0.0,20_models,,,0.0
+Gemini-Flash-1.5,2.2351851851851854,2.35,2.6759259259259256,20_models,0.1148148148148147,0.4407407407407402,0.3259259259259255
+Mistral-Small-3 Tag for Gemma-3-4b-It,,0.0,0.0,20_models,,,0.0
+Gemini-2.0-flash Tag for Claude-Sonnet-4,,0.0,0.0,20_models,,,0.0
+GPT-4o-mini,1.3759259259259258,1.4685185185185186,1.9740740740740739,20_models,0.09259259259259278,0.5981481481481481,0.5055555555555553
+Gemini-2.0-flash Tag for Calude-Opus-4,,0.0,0.0,20_models,,,0.0
+Claude-3-7-Sonnet Tag for Gemma-3-12b-It,,0.0,0.0,20_models,,,0.0
+Mistral-Small-3 Tag for Command,,0.0,0.0,20_models,,,0.0
+Command,1.7462962962962962,1.7666666666666666,1.9759259259259256,20_models,0.020370370370370372,0.2296296296296294,0.20925925925925903
+Gemma-3-4b-It,1.5592592592592591,1.5629629629629629,1.5018518518518518,20_models,0.0037037037037037646,-0.05740740740740735,-0.061111111111111116
+Mistral-Small-3 Tag for GPT-4o,,0.0,0.0,20_models,,,0.0
+Gemini-2.0-flash Tag for Grok-4,,0.0,0.0,20_models,,,0.0
+Claude-3-7-Sonnet Tag for Llama-4-Scout,,0.0,0.0,20_models,,,0.0
+Gemini-2.0-flash Tag for Mistral-Medium-3,,0.0,0.0,20_models,,,0.0
+Gemini-2.0-flash Tag for Gemini-2.5-Flash,,0.0,0.0,20_models,,,0.0
+Gemini-2.0-flash Tag for Qwen3-32b,,0.0,0.0,20_models,,,0.0
+Mistral-Small-3 Tag for Mistral-Small-3.2-24b-Instruct,,0.0,0.0,20_models,,,0.0
+Claude-3-7-Sonnet Tag for Gemma-3-4b-It,,0.0,0.0,20_models,,,0.0
+Llama-3.2-3b-Instruct,1.748148148148148,1.8444444444444446,2.114814814814815,20_models,0.09629629629629655,0.36666666666666714,0.2703703703703706
+Gemini-2.0-flash Tag for Command,,0.0,0.0,20_models,,,0.0
+Command-R-Plus-08-2024,2.083333333333333,2.046296296296296,2.5740740740740744,20_models,-0.0370370370370372,0.49074074074074137,0.5277777777777786
+Gemini-2.0-flash Tag for Llama-4-Scout,,0.0,0.0,20_models,,,0.0
+Mistral-Small-3 Tag for GPT-4o-mini,,0.0,0.0,20_models,,,0.0
+Claude-3-7-Sonnet Tag for Gemini-Flash-1.5,,0.0,0.0,20_models,,,0.0
+Mistral-Small-3 Tag for Mistral-Medium-3,,0.0,0.0,20_models,,,0.0
+Mistral-Small-3.2-24b-Instruct,1.4166666666666667,1.5592592592592591,2.314814814814815,20_models,0.14259259259259238,0.8981481481481481,0.7555555555555558
+Mistral-Small-3 Tag for Gemma-3-12b-It,,0.0,0.0,20_models,,,0.0
+Mistral-Small-3 Tag for Phi-3-medium,,0.0,0.0,20_models,,,0.0
+Mistral-Small-3 Tag for Grok-4,,0.0,0.0,20_models,,,0.0
+Qwen3-32b,1.6611111111111112,1.7555555555555555,2.338888888888889,20_models,0.09444444444444433,0.6777777777777778,0.5833333333333335
+Gemini-2.0-flash Tag for Qwen2.5-72b,,0.0,0.0,20_models,,,0.0
+Mistral-Small-3 Tag for Claude-Sonnet-4,,0.0,0.0,20_models,,,0.0
+Gemini-2.0-flash Tag for Command-R-Plus-08-2024,,0.0,0.0,20_models,,,0.0
+GPT-4o,1.8888888888888888,1.8740740740740742,2.1999999999999997,20_models,-0.014814814814814614,0.3111111111111109,0.3259259259259255
+Llama-3.1-70b-Instruct,1.6092592592592592,1.5814814814814815,2.5185185185185186,20_models,-0.02777777777777768,0.9092592592592594,0.9370370370370371
+Claude-3-7-Sonnet Tag for Mixtral-8x22B,,0.0,0.0,20_models,,,0.0
+Gemini-2.0-flash Tag for Gemini-Flash-1.5,,0.0,0.0,20_models,,,0.0
+Claude-3-7-Sonnet Tag for Command-R-Plus-08-2024,,0.0,0.0,20_models,,,0.0
+Gemini-2.0-flash Tag for Mixtral-8x22B,,0.0,0.0,20_models,,,0.0
+Gemma-3-12b-It,1.8407407407407408,1.924074074074074,2.45,20_models,0.08333333333333326,0.6092592592592594,0.5259259259259261
+Mistral-Small-3 Tag for Gemini-Flash-1.5,,0.0,0.0,20_models,,,0.0
+Calude-Opus-4,2.038888888888889,1.9925925925925927,2.6351851851851853,20_models,-0.0462962962962965,0.5962962962962961,0.6425925925925926
+Llama-4-Scout,1.3962962962962964,1.7555555555555555,1.9722222222222223,20_models,0.35925925925925917,0.575925925925926,0.21666666666666679
+Gemini-2.0-flash Tag for Gemma-3-4b-It,,0.0,0.0,20_models,,,0.0
+Claude-3-7-Sonnet Tag for Mistral-Small-3.2-24b-Instruct,,0.0,0.0,20_models,,,0.0
+Claude-3-7-Sonnet Tag for Command,,0.0,0.0,20_models,,,0.0
+Qwen2.5-72b,1.4425925925925924,1.4277777777777778,2.151851851851852,20_models,-0.014814814814814614,0.7092592592592595,0.7240740740740741
+Phi-3-medium,1.7333333333333334,1.7185185185185186,1.5462962962962963,20_models,-0.014814814814814836,-0.1870370370370371,-0.17222222222222228
+Claude-3-7-Sonnet Tag for Llama-3.1-70b-Instruct,,0.0,0.0,20_models,,,0.0
+Mistral-Small-3 Tag for Command-R-Plus-08-2024,,0.0,0.0,20_models,,,0.0
+Gemini-2.0-flash Tag for Gemma-3-12b-It,,0.0,0.0,20_models,,,0.0
+Claude-Sonnet-4,2.1351851851851853,2.0407407407407407,2.746296296296296,20_models,-0.09444444444444455,0.6111111111111107,0.7055555555555553
+Mistral-Small-3 Tag for Calude-Opus-4,,0.0,0.0,20_models,,,0.0
+Gemini-2.0-flash Tag for Llama-3.2-3b-Instruct,,0.0,0.0,20_models,,,0.0
+Gemini-2.0-flash Tag for GPT-4o-mini,,0.0,0.0,20_models,,,0.0
+Gemini-2.0-flash Tag for Llama-3.1-70b-Instruct,,0.0,0.0,20_models,,,0.0
+Claude-3-7-Sonnet Tag for Gemini-2.5-Flash,,0.0,0.0,20_models,,,0.0
+Grok-4,1.8888888888888888,2.062962962962963,2.6925925925925926,20_models,0.17407407407407405,0.8037037037037038,0.6296296296296298
+Claude-3-7-Sonnet Tag for Qwen2.5-72b,,0.0,0.0,20_models,,,0.0
+Gemini-2.0-flash Tag for Mistral-Small-3.2-24b-Instruct,,0.0,0.0,20_models,,,0.0
+Mistral-Medium-3,1.6759259259259258,1.7833333333333334,2.6240740740740742,20_models,0.10740740740740762,0.9481481481481484,0.8407407407407408
+Gemini-2.0-flash Tag for GPT-4o,,0.0,0.0,20_models,,,0.0
+Mixtral-8x22B,1.7370370370370372,1.6259259259259258,2.085185185185185,20_models,-0.11111111111111138,0.3481481481481479,0.45925925925925926
+Claude-3-7-Sonnet Tag for Phi-3-medium,,0.0,0.0,20_models,,,0.0
+Mistral-Small-3 Tag for Llama-3.1-70b-Instruct,,0.0,0.0,20_models,,,0.0
+Claude-3-7-Sonnet Tag for Grok-4,,0.0,0.0,20_models,,,0.0
+Claude-3-7-Sonnet Tag for Mistral-Medium-3,,0.0,0.0,20_models,,,0.0
+Gemini-2.0-flash Tag for Phi-3-medium,,0.0,0.0,20_models,,,0.0
+Claude-3-7-Sonnet Tag for Claude-Sonnet-4,,0.0,0.0,20_models,,,0.0
+Mistral-Small-3 Tag for Llama-4-Scout,,0.0,0.0,20_models,,,0.0
+Mistral-Small-3 Tag for Qwen3-32b,,0.0,0.0,20_models,,,0.0
+Claude-3-7-Sonnet Tag for Llama-3.2-3b-Instruct,,0.0,0.0,20_models,,,0.0
+Mistral-Small-3 Tag for Gemini-2.5-Flash,,0.0,0.0,20_models,,,0.0
+Mistral-Small-3 Tag for Llama-3.2-3b-Instruct,,0.0,0.0,20_models,,,0.0
+Mistral-Small-3 Tag for Mixtral-8x22B,,0.0,0.0,20_models,,,0.0
+Claude-3-7-Sonnet Tag for GPT-4o,,0.0,0.0,20_models,,,0.0
+Claude-3-7-Sonnet Tag for Qwen3-32b,,0.0,0.0,20_models,,,0.0
+Claude-3-7-Sonnet Tag for Calude-Opus-4,,0.0,0.0,20_models,,,0.0
+Gemini-2.5-Flash,2.111111111111111,2.201851851851852,2.6148148148148147,20_models,0.09074074074074101,0.5037037037037035,0.41296296296296253
+Claude-3-7-Sonnet Tag for GPT-4o-mini,,0.0,0.0,20_models,,,0.0
+Claude-3.7-Sonnet,2.2481481481481485,0.0,0.0,10_original,-2.2481481481481485,-2.2481481481481485,0.0
+Command-A,,0.0,0.0,10_original,,,0.0
+Mistral-Small-3,,0.0,0.0,10_original,,,0.0
+GPT-4.1-mini,1.8148148148148149,0.0,0.0,10_original,-1.8148148148148149,-1.8148148148148149,0.0
+Phi-4,1.951851851851852,0.0,0.0,10_original,-1.951851851851852,-1.951851851851852,0.0
+DeepSeek-V3,,0.0,0.0,10_original,,,0.0
+Gemma-3,,0.0,0.0,10_original,,,0.0
+Gemini-2.0-flash,,0.0,0.0,10_original,,,0.0
+Mixtral-8x7B,1.6111111111111112,0.0,0.0,10_original,-1.6111111111111112,-1.6111111111111112,0.0
+Llama-4-Scout,1.3962962962962964,0.0,0.0,10_original,-1.3962962962962964,-1.3962962962962964,0.0

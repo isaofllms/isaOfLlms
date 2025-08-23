@@ -7,7 +7,7 @@ judge_model_map = {
     "Gemini-2.0-flash": "google/gemini-2.0-flash-001",
     "Claude-3-7-Sonnet": "anthropic/claude-3.7-sonnet",
     # "Mistral-large-2": "mistralai/mistral-large-2411"
-    "Mistral-Small-3": "mistralai/mistral-small-24b-instruct-2501:free",
+    "Mistral-Small-3": "mistralai/mistral-small-24b-instruct-2501",
 
 }
 
@@ -17,7 +17,7 @@ extended_judge_model_map = {
     # "Gemini-1.5-flash": "google/gemini-flash-1.5",
     # "Gemma-2-27b": "google/gemma-2-27b-it",
     "Gemma-3-27b": "google/gemma-3-27b-it:free",
-    "Mistral-Small-2501": "mistralai/mistral-small-24b-instruct-2501:free",
+    "Mistral-Small-2501": "mistralai/mistral-small-24b-instruct-2501",
     "Llama-4-Scout": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
     # "Llama-3.2-90b": "meta-llama/llama-3.2-90b-vision-instruct",
     # "Command-R-Plus": "cohere/command-r-plus-08-2024",

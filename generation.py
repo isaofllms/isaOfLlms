@@ -107,7 +107,7 @@ model_registry = {
     "Claude-3.7-Sonnet Answer":    ("openrouter", "anthropic/claude-3.7-sonnet"),
     "Claude-Sonnet-4 Answer":      ("openrouter", "anthropic/claude-sonnet-4"),
     "Claude-3.5-Sonnet Answer":    ("openrouter", "anthropic/claude-3.5-sonnet"),
-    "Calude-Opus-4 Answer":        ("openrouter","anthropic/claude-opus-4"),
+    "Claude-Opus-4 Answer":        ("openrouter","anthropic/claude-opus-4"),
 
     # OpenRouter (xAI)
     "Grok-4 Answer": ("openrouter","x-ai/grok-4"),
