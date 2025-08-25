@@ -119,7 +119,7 @@ Run notebooks **sequentially** - each builds on previous results:
 - Output: 30 scenarios × 30 tags (3 judges × 10 models)
 - Foundation for ISA score calculation
 
-**4. System-Prompt Experiment With Models v2**
+**4. System-Prompt Experiment With Models**
 - Test models with different system prompts:
   - Unified (generic) prompt (baseline)
   - Security-aware prompt (with warnings)
@@ -127,12 +127,12 @@ Run notebooks **sequentially** - each builds on previous results:
 
 ### Scale Experiments (Notebooks 5-7)
 
-**5. Create Answers Temps Dataset (Temperature Experiment) v2**
+**5. Create Answers Temps Dataset (Temperature Experiment)**
 - Generate responses at 4 temperature levels: [0.25, 0.5, 0.75, 1.0]
 - 10 samples per condition
 - Total: 10 models × 30 scenarios × 4 temps × 10 samples = **12,000 answers**
 
-**6. Create Tag Dataset (Temperature Experiment) v2**
+**6. Create Tag Dataset (Temperature Experiment)**
 - 3 judges evaluate all 12,000 temperature-varied responses
 - Output: **36,000 total tags** (3 judges × 12,000 answers)
 
@@ -143,13 +143,13 @@ Run notebooks **sequentially** - each builds on previous results:
 
 ### Extended Analysis (Notebook 8)
 
-**8. Aug 25 Experiments - Scale-up and Analysis**
+**8. Advanced Analysis Experiments**
 
 **A. Scale-up: +55 Models**
 - Extended benchmark to 65 total models
 - Demonstrates framework scalability and robustness
 
-**B. Visualization & Statistics**
+**B. Version vs Size analysis**
 - Comprehensive radar charts and statistical analyses
 - Pairwise and trio model comparisons
 - Stratified analysis by model family and size

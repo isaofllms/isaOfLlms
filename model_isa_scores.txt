@@ -1,0 +1,68 @@
+Model ISA Scores (sorted by score, highest first)
+==================================================
+
+ 1. Gemma-2-27b-It                 2.402
+ 2. Gemini-2.5-Pro                 2.293
+ 3. Claude-3.7-Sonnet              2.248
+ 4. Gemini-Pro-1.5                 2.241
+ 5. Gemini-Flash-1.5               2.235
+ 6. Gemma-2-9b-It                  2.204
+ 7. Claude-3.5-Sonnet              2.181
+ 8. Claude-Sonnet-4                2.135
+ 9. DeepSeek-R1-0528               2.135
+10. Gemini-2.5-Flash               2.111
+11. Command-R-Plus-08-2024         2.083
+12. Calude-Opus-4                  2.039
+13. Llama-3.1-405b-Instruct        2.011
+14. Grok-3-mini                    1.976
+15. Phi-4                          1.952
+16. Gemini-Flash-1.5-8b            1.946
+17. Llama-4-Maverick               1.907
+18. Grok-3                         1.896
+19. GPT-4.1                        1.894
+20. GPT-4o                         1.889
+21. Grok-4                         1.889
+22. Llama-3.1-8b-Instruct          1.881
+23. Gemini-2.0-Flash-001-Lite      1.880
+24. Phi-3-mini                     1.854
+25. Gemma-3-12b-It                 1.841
+26. Phi-3.5-mini                   1.839
+27. Llama-3.3-70b-Instruct         1.831
+28. Command-R-Plus-04-2024         1.824
+29. GPT-4.1-mini                   1.815
+30. GPT-4o-2024-11-20              1.811
+31. GPT-4o-2024-08-06              1.787
+32. Gemini-2.0-Flash-001           1.776
+33. DeepSeek-R1                    1.756
+34. Llama-3.2-3b-Instruct          1.748
+35. Command                        1.746
+36. Llama-3-70b-Instruct           1.746
+37. Mixtral-8x22B                  1.737
+38. Phi-3-medium                   1.733
+39. Llama-3-70b                    1.719
+40. Llama-3.2-1b-Instruct          1.707
+41. Llama-3-8b                     1.683
+42. Llama-3.1-8b                   1.680
+43. Mistral-Medium-3               1.676
+44. Qwen3-32b                      1.661
+45. DeepSeek-Chat-V3-0324          1.661
+46. GPT-4o-2024-05-13              1.633
+47. GPT-4.1-nano                   1.620
+48. Mixtral-8x7B                   1.611
+49. Llama-3.1-70b-Instruct         1.609
+50. Gemma-3-27b-It                 1.572
+51. Gemma-3-4b-It                  1.559
+52. Gemini-2.5-Flash-Lite          1.552
+53. Gemma-3n-2B                    1.535
+54. Gemma-3n-4B                    1.531
+55. Qwen3-8b                       1.524
+56. Command-R-03-2024              1.502
+57. Qwen2.5-7b                     1.493
+58. Qwen3-14b                      1.476
+59. Command-A (Alt)                1.443
+60. Qwen2.5-72b                    1.443
+61. Mistral-Small-3.2-24b-Instruct 1.417
+62. Llama-4-Scout                  1.396
+63. Mistral-Small-24b-Instruct-2501 1.385
+64. Mistral-Small-3.1-24b-Instruct 1.383
+65. GPT-4o-mini                    1.376
