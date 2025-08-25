@@ -13,73 +13,177 @@ We propose a practical mitigation: incorporating our security awareness instruct
 
 ## Repository Structure
 
-This repository contains all the Jupyter notebooks needed to rerun our experiment, along with a `Dataset` folder that holds the data and results.
+This repository contains all artifacts required to reproduce our USENIX Security paper on measuring and analyzing the Informatino Security Awareness (ISA) of Large Language Models.
 
-### Helper modules
+## 📋 Table of Contents
 
-We use four Python modules to improve the modularity and robustness of these experiments:
+- [Quick Start](#quick-start)
+- [Repository Structure](#repository-structure)
+- [Helper Modules](#helper-modules)
+- [Pre-existing Datasets](#pre-existing-datasets)
+- [Experimental Pipeline](#experimental-pipeline)
+- [Requirements](#requirements)
 
-*config.py* — Centralizes global variables (paths, seeds, flags, experiment settings).
+## 🚀 Quick Start
 
-*clients.py* — Adapters for all client/providers (unified call interface, retries/rate-limits).
+1. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-*generation.py* —
+2. **Configure environment:**
+   Create a `.env` file with your API keys and settings:
+   ```bash
+   cp .env.example .env
+   # Edit .env with your API keys and project directory path
+   ```
 
-- Maintains a model registry that maps each model_id → provider/client.
+3. **Run experiments:**
+   Execute notebooks sequentially (1-8) - **order is crucial** as each depends on the previous ones.
 
-- Helper utilities for generating model answers with or without a modified system prompt.
+## 📁 Repository Structure
 
-*tagging.py* —
+```
+├── Dataset/                 # All experimental data and results
+├── notebooks/              # Jupyter notebooks (1-8)
+├── config.py               # Global experiment settings
+├── clients.py              # Provider adapters and unified API interface
+├── generation.py           # Model registry and response generation utilities
+├── tagging.py              # Judge selection and tagging utilities
+├── requirements.txt        # Python dependencies
+└── README.md              # This file
+```
 
-- Helper utilities for tagging model answers (with/without modified system prompt).
+## 🛠 Helper Modules
 
-- Defines two global lists: (i) an extended judge-selection phase, and (ii) the final tagging phase after judges have been determined.
+Our codebase is organized into four main modules for improved modularity and robustness:
 
+### `config.py`
+Centralizes global variables including:
+- Model configurations (temperature, max_tokens)
 
-Below is a brief overview of each notebook, listed in the order we created and used them during the experiment:
+### `clients.py`
+Unified interface for multiple LLM providers:
+- Adapters for OpenAI, Anthropic, Google, etc.
+
+### `generation.py`
+Model response generation utilities:
+- Model registry mapping model_id → provider/client
+- Support for system prompt modifications
+- Batch generation capabilities
+
+### `tagging.py`
+Judge evaluation and scoring utilities:
+- Judge selection algorithms
+- Answer tagging with configurable judge sets
+- Support for both individual and batch evaluation
+
+## 📊 Pre-existing Datasets
+
+The repository includes three foundational datasets:
+
+1. **Criteria and Scenarios** (`Criterinos and Scenarios`)
+   - 30 carefully crafted security scenarios
+   - One scenario per sub-focus area from Mobile Security Taxonomy
+   - Created through extensive manual review process
+
+2. **Pilot LLM Answers** (`3_pilot_LLMS_answers`)
+   - Responses from 3 pilot models (GPT, Gemini, Llama) 
+   - 90 total answers (3 models × 30 scenarios)
+   - Baseline for judge evaluation
+
+3. **Human Majority Vote** (`Human_Majority_Vote`)
+   - Gold standard human evaluations
+   - 90 tagged answers with majority vote from 3 human judges
+   - Used for judge validation and correlation analysis
+
+## 🧪 Experimental Pipeline
+
+Run notebooks **sequentially** - each builds on previous results:
+
+### Core Experiments (Notebooks 1-4)
 
 **1. Create Dataset With 10 Models**
-In this notebook we presented the 30 scenarios to our 10 LLM contenster models and saved their answers (temperature = 0).
+- Generate responses from 10 contester LLMs
+- 30 scenarios × 10 models = 300 answers
+- Temperature = 0 (deterministic)
 
-**2. Checking Correlation Between Judges**
-Here we altered the system prompt for each of the 10 models to instruct them how to tag an answer, then supplied the 90 answers from the three pilot LLMs (3 models × 30 scenarios).
-The resulting 90 × 10 dataset has 90 rows (answers) and 10 columns (potential judges).
-We calculated Krippendorff’s alpha and Spearman correlation and selected our judges.
+**2. Checking Correlation Between Judges** 
+- Convert 10 models into potential judges
+- Tag pilot LLM answers (90 answers × 10 judges = 900 tags)
+- Calculate Krippendorff's α and Spearman correlation
+- Select optimal judge combination
 
-**3. 3 New Judges’ Tags on 10 Models’ Answers**
-In this notebook we altered the system prompt for each LLM acting as a judge (three judges in total) and gave them the 30 scenarios × 10 models answers to tag.
-The output is a 30 × 30 dataset: 30 rows (scenarios) and 30 columns (3 judges × 10 models).
+**3. 3 New Judges' Tags on 10 Models' Answers**
+- Selected judges evaluate all 10 model responses
+- Output: 30 scenarios × 30 tags (3 judges × 10 models)
+- Foundation for ISA score calculation
 
 **4. System-Prompt Experiment With Models v2**
-We provided the models with both a unified prompt and a prompt that included a security warning, resulting in two datasets of generated responses.
-Then, these responses were labeled by the selected judges.
-Then, we computed the ISA score of each model for every system prompt.
+- Test models with different system prompts:
+  - Unified (generic) prompt (baseline)
+  - Security-aware prompt (with warnings)
+- Compare ISA scores across prompt conditions
+
+### Scale Experiments (Notebooks 5-7)
 
 **5. Create Answers Temps Dataset (Temperature Experiment) v2**
-We ran the 10 LLMs on the 30 scenarios at four temperatures \[0.25, 0.5, 0.75, 1], generating 10 samples each—
-a total of 10 × 30 × 4 × 10 = 12,000 answers.
+- Generate responses at 4 temperature levels: [0.25, 0.5, 0.75, 1.0]
+- 10 samples per condition
+- Total: 10 models × 30 scenarios × 4 temps × 10 samples = **12,000 answers**
 
 **6. Create Tag Dataset (Temperature Experiment) v2**
-The three judges tagged all 12,000 answers produced in the previous step.
+- 3 judges evaluate all 12,000 temperature-varied responses
+- Output: **36,000 total tags** (3 judges × 12,000 answers)
 
 **7. Temperature Experiment v2**
-Using the judges’ tags, we calculated the average ISA score for each model at every temperature and graphed the results, comparing each temperature’s average score to that at temperature 0.
+- Calculate average ISA scores per temperature
+- Statistical analysis and visualization
+- Compare temperature effects across models
 
-**8. Aug 25 Experiments**
+### Extended Analysis (Notebook 8)
 
-After completing our baseline experiments, we extended the study as follows (default system prompt unless noted):
+**8. Aug 25 Experiments - Scale-up and Analysis**
 
-A. Scale-up: +55 models
-We added 55 additional models to the benchmark—demonstrating the robustness and dynamic nature of our framework. For each model we generated responses and had judges compute ISA scores.
+**A. Scale-up: +55 Models**
+- Extended benchmark to 65 total models
+- Demonstrates framework scalability and robustness
 
-B. Visualization & statistics
-We aggregated results, produced radar charts, and performed statistical analyses on pairs and trios of models, stratified by version and size.
+**B. Visualization & Statistics**
+- Comprehensive radar charts and statistical analyses
+- Pairwise and trio model comparisons
+- Stratified analysis by model family and size
 
-C. Prompt-format ablation
-We expanded the prompt experiment by allowing models to answer with and without an initial explanation, then measured performance differences.
+**C. Prompt-format Ablation**
+- Test explanation vs. direct answer formats
+- Measure impact on security assistance behavior
 
-D. System-prompt ablation
-We expanded the system-prompt study by selecting 30 diverse models and evaluating their performance under multiple system prompts.
+**D. System-prompt Ablation**
+- Evaluate 30 diverse models across multiple system prompts
+- Comprehensive prompt sensitivity analysis
+
+## 📋 Requirements
+
+- Python 3.8+
+- ~2GB free disk space for datasets
+- API keys for model providers (OpenAI, Anthropic, Google, etc.)
+- Estimated runtime: 36-120 hours for full reproduction (depnading if running temperature experiment as well)
+
+### System Requirements
+- Modern CPU (reproducible on single CPU)
+- 8GB RAM recommended
+- Internet connection for API calls
+
+## 🔄 Reproduction Notes
+
+- Notebooks include progress tracking and backup mechanisms
+- Each notebook saves intermediate results for robustness
+- Full end-to-end reproduction generates all paper figures and tables
+
+
+---
+
+**⚠️ Important:** This is an anonymous submission repository. Upon paper acceptance, we will migrate to a permanent repository with full attribution and long-term Zenodo archival.
 
 
 
