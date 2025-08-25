@@ -24,7 +24,7 @@ This repository contains all artifacts required to reproduce our USENIX Security
 - [Experimental Pipeline](#experimental-pipeline)
 - [Requirements](#requirements)
 
-## 🚀 Quick Start
+## Quick Start
 
 1. **Install dependencies:**
    ```bash
@@ -41,7 +41,7 @@ This repository contains all artifacts required to reproduce our USENIX Security
 3. **Run experiments:**
    Execute notebooks sequentially (1-8) - **order is crucial** as each depends on the previous ones.
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 ├── Dataset/                 # All experimental data and results
@@ -54,7 +54,7 @@ This repository contains all artifacts required to reproduce our USENIX Security
 └── README.md              # This file
 ```
 
-## 🛠 Helper Modules
+## Helper Modules
 
 Our codebase is organized into four main modules for improved modularity and robustness:
 
@@ -78,7 +78,7 @@ Judge evaluation and scoring utilities:
 - Answer tagging with configurable judge sets
 - Support for both individual and batch evaluation
 
-## 📊 Pre-existing Datasets
+## Pre-existing Datasets
 
 The repository includes three foundational datasets:
 
@@ -97,7 +97,7 @@ The repository includes three foundational datasets:
    - 90 tagged answers with majority vote from 3 human judges
    - Used for judge validation and correlation analysis
 
-## 🧪 Experimental Pipeline
+## Experimental Pipeline
 
 Run notebooks **sequentially** - each builds on previous results:
 
@@ -162,7 +162,7 @@ Run notebooks **sequentially** - each builds on previous results:
 - Evaluate 30 diverse models across multiple system prompts
 - Comprehensive prompt sensitivity analysis
 
-## 📋 Requirements
+## Requirements
 
 - Python 3.8+
 - ~2GB free disk space for datasets
@@ -174,7 +174,7 @@ Run notebooks **sequentially** - each builds on previous results:
 - 8GB RAM recommended
 - Internet connection for API calls
 
-## 🔄 Reproduction Notes
+## Reproduction Notes
 
 - Notebooks include progress tracking and backup mechanisms
 - Each notebook saves intermediate results for robustness
@@ -183,7 +183,7 @@ Run notebooks **sequentially** - each builds on previous results:
 
 ---
 
-**⚠️ Important:** This is an anonymous submission repository. Upon paper acceptance, we will migrate to a permanent repository with full attribution and long-term Zenodo archival.
+**Important:** This is an anonymous submission repository. Upon paper acceptance, we will migrate to a permanent repository with full attribution and long-term Zenodo archival.
 
 
 
