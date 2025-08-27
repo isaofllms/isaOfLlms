@@ -3,7 +3,7 @@
 ## Abstract
 The popularity of large language models (LLMs) continues to grow, and LLM-based assistants have become ubiquitous.
 Information security awareness (ISA) is an important yet underexplored safety aspect of LLMs. 
-ISA encompasses LLMs' security knowledge, which has been explored in the past, as well as attitudes and behaviors, which are crucial to LLMs' ability to understand the implicit security context and reject the unsafe requests that are potentially causing the LLM to fail the user. 
+ISA encompasses LLMs' security knowledge, which has been explored in the past, as well as attitudes and behaviors, which are crucial to LLMs' ability to understand implicit security context and reject unsafe requests that may cause the LLM to fail the user. 
 We present an automated method for measuring the ISA of LLMs, which covers all 30 security topics in a mobile ISA taxonomy, using realistic scenarios that create tension between implicit security implications and user satisfaction.
 Applying this method to leading LLMs, we find that most of the popular models exhibit only medium to low levels of ISA, exposing their users to cybersecurity threats.
 Smaller variants of the same model family are significantly riskier, while newer versions show no consistent ISA improvement, suggesting that providers are not actively working toward mitigating this issue. 
@@ -107,23 +107,27 @@ Run notebooks **sequentially** - each builds on previous results:
 - Generate responses from 10 contester LLMs
 - 30 scenarios × 10 models = 300 answers
 - Temperature = 0 (deterministic)
+- Dataset name: `10 models answers to scenarios`
 
 **2. Checking Correlation Between Judges** 
 - Convert 10 models into potential judges
 - Tag pilot LLM answers (90 answers × 10 judges = 900 tags)
 - Calculate Krippendorff's α and Spearman correlation
 - Select optimal judge combination
+- Dataset name: `10_modelS_tags_on_pilot_LLMS_answers(90X10)`
 
 **3. 3 New Judges' Tags on 10 Models' Answers**
 - Selected judges evaluate all 10 model responses
 - Output: 30 scenarios × 30 tags (3 judges × 10 models)
 - Foundation for ISA score calculation
+- Dataset name: `10_models_answers_tagged_by_3_judges`
 
 **4. System-Prompt Experiment With Models**
 - Test models with different system prompts:
   - Unified (generic) prompt (baseline)
   - Security-aware prompt (with warnings)
 - Compare ISA scores across prompt conditions
+- Dataset under `/System prompt experiment` foldar.
 
 ### Scale Experiments (Notebooks 5-7)
 
@@ -131,10 +135,12 @@ Run notebooks **sequentially** - each builds on previous results:
 - Generate responses at 4 temperature levels: [0.25, 0.5, 0.75, 1.0]
 - 10 samples per condition
 - Total: 10 models × 30 scenarios × 4 temps × 10 samples = **12,000 answers**
+- Datasets under `/Temperature experiment` folder.
 
 **6. Create Tag Dataset (Temperature Experiment)**
 - 3 judges evaluate all 12,000 temperature-varied responses
 - Output: **36,000 total tags** (3 judges × 12,000 answers)
+- Datasets under `/Temperature experiment` folder.
 
 **7. Temperature Experiment v2**
 - Calculate average ISA scores per temperature
@@ -148,6 +154,7 @@ Run notebooks **sequentially** - each builds on previous results:
 **A. Scale-up: +55 Models**
 - Extended benchmark to 65 total models
 - Demonstrates framework scalability and robustness
+- Dataset name: `65_model_isa_scores`
 
 **B. Version vs Size analysis**
 - Comprehensive radar charts and statistical analyses
